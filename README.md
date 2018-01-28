@@ -3,7 +3,7 @@
 
 ## Introduction
 
-Custom ViewPager that allows to block swiping right or left where the ViewPager child fragments set the scroll direction and handle blocked swipe events. This comes also with a adapter that can handle different view pages views.
+Custom ViewPager that allows to block swiping right or left where the ViewPager child fragments set the scroll direction and handle blocked swipe events. The library also comes with an adapter that can handle different view pages views and can control the view pager scrolling from within view pager pages.
 
 ![Screenshot](https://raw.githubusercontent.com/kibotu/SwipeDirectionViewPager/master/screenshot.jpeg) ![Screenshot](https://raw.githubusercontent.com/kibotu/SwipeDirectionViewPager/master/screenshot2.png)
 
