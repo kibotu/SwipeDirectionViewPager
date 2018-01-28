@@ -12,8 +12,8 @@ import java.util.*
  * Created by [Jan Rabe](https://about.me/janrabe).
  *
  *
- * source: [how-to-disable-viewpager-from-swiping-in-one-direction](https://stackoverflow.com/questions/19602369/how-to-disable-viewpager-from-swiping-in-one-direction/34076649#34076649)
  */
+
 class SwipeDirectionViewPager : ViewPager, LogTag {
 
     private val uuid = UUID.randomUUID().toString()
@@ -34,6 +34,11 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
         return isSwipeAllowed(event) && super.onInterceptTouchEvent(event)
     }
 
+    /**
+     * Intercepts touch events and notifies pages.
+     *
+     * based on [how-to-disable-viewpager-from-swiping-in-one-direction](https://stackoverflow.com/questions/19602369/how-to-disable-viewpager-from-swiping-in-one-direction/34076649#34076649)
+     */
     private fun isSwipeAllowed(event: MotionEvent): Boolean {
         val allowSwipeDirection = this.allowSwipeDirection()
 

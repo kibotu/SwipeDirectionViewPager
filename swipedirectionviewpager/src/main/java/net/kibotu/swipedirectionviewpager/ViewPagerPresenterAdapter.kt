@@ -24,7 +24,7 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
     /**
      * Interface for injecting the adapter into pages.
      */
-    interface ViewPagerPresenter<T, VM> {
+    interface ViewPagerPresenter<T, VM> : SwipeDirectionListener {
         var viewPagerPresenterAdapter: ViewPagerPresenterAdapter<T, VM>?
     }
 
@@ -93,7 +93,7 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
     }
 
     /**
-     * Adds a new page at the beginning.
+     * Adds a new page at the end.
      */
     fun <R> append(t: T, factory: () -> R) where R : Fragment, R : ViewPagerPresenterAdapter.ViewPagerPresenter<T, VM> {
         log("[getItem] size=$count at=0 item=$t")
@@ -103,7 +103,7 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
     }
 
     /**
-     * Adds a new page at the end.
+     * Adds a new page at the beginning.
      */
     fun <R> prepend(t: T, factory: () -> R) where R : Fragment, R : ViewPagerPresenterAdapter.ViewPagerPresenter<T, VM> {
         log("[getItem] size=$count at=0 item=$t")
