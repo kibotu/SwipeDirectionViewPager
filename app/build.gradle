@@ -40,5 +40,5 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.3'
     implementation 'com.github.bumptech.glide:glide:4.5.0'
-    implementation project(':swipedirectionviewpager')
+    implementation project(':SwipeDirectionViewPager')
 }

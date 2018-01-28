@@ -1,1 +1,1 @@
-include ':app', ':swipedirectionviewpager'
+include ':app', ':SwipeDirectionViewPager'
