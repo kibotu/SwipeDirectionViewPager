@@ -3,11 +3,9 @@
 
 ## Introduction
 
-Custom ViewPager that allows to block swiping right or left and registering event listener.
-The added custom view pager adapter, allows a memory efficient and convenient handling of different view pager fragments with being able to append, prepend, update by filter methods.
-The adapter also allows view pager pages to control the view pager navigation using the scrollhandler within the adapter.
+Custom ViewPager that allows to block swiping right or left where the ViewPager child fragments set the scroll direction and handle blocked swipe events. This comes also with a adapter that can handle different view pages views.
 
-![Screenshot](https://raw.githubusercontent.com/kibotu/SwipeDirectionViewPager/master/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/kibotu/SwipeDirectionViewPager/master/screenshot.jpg) ![Screenshot](https://raw.githubusercontent.com/kibotu/SwipeDirectionViewPager/master/screenshot2.png)
 
 ## How to install
 
@@ -19,7 +17,8 @@ The adapter also allows view pager pages to control the view pager navigation us
 
 1 Create adapter
 
-    var adapter: ViewPagerPresenterAdapter<PageModel, ViewPagerModel> = ViewPagerPresenterAdapter(supportFragmentManager) // use Fragment#childFragmentManager in nested fragments
+    // use Fragment#childFragmentManager in nested fragments
+    var adapter: ViewPagerPresenterAdapter<PageModel, ViewPagerModel> = ViewPagerPresenterAdapter(supportFragmentManager)
 
 2 add to view pager
 
@@ -43,7 +42,6 @@ The adapter also allows view pager pages to control the view pager navigation us
     }
 
     // don't forget to notify updates
-
     adapter.notifyDataSetChanged()
 
 5 implement ViewPagerPresenterAdapter.ViewPagerPresenter<PageModel, ViewPagerModel> interface in your view pager fragments, e.g.:
@@ -124,9 +122,7 @@ modifying model data in place
 
 ### Misc
 
-PageModel - can be any data model, which can be bound to view pager page.
-
-and can be accessed inside pages
+PageModel - can be any data model, which can be bound to view pager page and can be accessed inside pages.
 
     var model : PageModel = viewPagerPresenterAdapter?.model(fragment)
 
@@ -134,7 +130,7 @@ and can be accessed inside pages
 
     var model : PageModel = viewPagerPresenterAdapter?.model(adapterPosition)
 
-ViewPagerModel - shared object between all pages and its parent view pager holder
+ViewPagerModel - meant to be a shared object between all pages and its parent view pager holder
 
     var viewPagerModel : ViewPagerModel = viewPagerPresenterAdapter?.viewPagerModel
 
