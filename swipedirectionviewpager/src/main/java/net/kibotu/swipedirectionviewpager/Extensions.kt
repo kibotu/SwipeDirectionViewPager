@@ -6,7 +6,7 @@ import android.content.res.Resources
 import android.util.Log
 import android.util.TypedValue
 
-internal val enableLogging: Boolean = true
+internal val enableLogging: Boolean = false
 
 internal fun Int.dpToPx(): Int {
     return toFloat().dpToPx().toInt()
