@@ -6,6 +6,8 @@ import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.MotionEvent
+import net.kibotu.logger.LogTag
+import net.kibotu.logger.Logger.log
 import java.util.*
 
 /**
@@ -125,7 +127,7 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
         return object : ScrollHandler {
 
             override fun skip(amount: Int, smooth: Boolean) {
-                log("[skip] $amount")
+                if(enableLogging) log("[skip] $amount")
                 if (currentItem + amount >= adapter!!.count - 1)
                     getViewPagerPresenterAdapter()?.swipeRightEdgeListener?.run()
                 else
@@ -141,7 +143,7 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
             }
 
             override fun scrollTo(position: Int, smooth: Boolean) {
-                log("""[scrollTo] position=$position /  ${adapter!!.count - 1} smooth=$smooth position == viewPager.getCurrentItem()${position == currentItem}""")
+                if(enableLogging)  log("""[scrollTo] position=$position /  ${adapter!!.count - 1} smooth=$smooth position == viewPager.getCurrentItem()${position == currentItem}""")
                 if (position == currentItem)
                     return
 
