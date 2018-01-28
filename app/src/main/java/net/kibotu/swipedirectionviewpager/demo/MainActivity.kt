@@ -30,6 +30,10 @@ class MainActivity : AppCompatActivity() {
         initCircleIndicator()
 
         addPages()
+
+        adapter.updateInPlace(filter = { it.text == "Page 3" }, modify = { it.text = "updated model in place by filter" })
+        adapter.update(PageModel(text = "update replaced model by filter"), { it.text == "Page 2" })
+        adapter.update(PageModel(text = "updated model at position 0"), 0)
     }
 
     private fun addPages() {

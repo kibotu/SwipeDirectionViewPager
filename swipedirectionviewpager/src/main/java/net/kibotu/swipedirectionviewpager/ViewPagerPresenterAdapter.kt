@@ -155,6 +155,13 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
     }
 
     /**
+     * @return Adapter position of fragment.
+     */
+    fun indexOf(t: T): Int {
+        return data.indexOfFirst { it.model == t }
+    }
+
+    /**
      * Removes first found page based on a given filter.
      */
     fun removeIf(filter: (T) -> Boolean) {
@@ -208,11 +215,21 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
     }
 
     /**
+     * Updates a page at a given position.
+     */
+    fun update(t: T, position: Int) {
+        log("[update] $t at $position")
+        data[position] = Page(t, data[position].presenter, data[position].factory)
+        @Suppress("UNCHECKED_CAST")
+        (data[position].presenter as? Updatable<T>)?.onUpdate(t)
+    }
+
+    /**
      * Updates a page model based on a filter. Requires [ViewPagerPresenter] to inherit from [Updatable] as well.
      */
-    fun updateWithFilter(filter: (T) -> Boolean, modify: (T) -> Unit) {
+    fun updateInPlace(filter: (T) -> Boolean, modify: (T) -> Unit) {
         data.indexOfFirst { filter(it.model) }.let {
-            log("[updateWithFilter] $it")
+            log("[updateInPlace] $it")
 
             val page = data[it]
             modify(page.model)

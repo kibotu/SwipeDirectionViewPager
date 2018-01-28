@@ -4,18 +4,176 @@
 ## Introduction
 
 Custom ViewPager that allows to block swiping right or left and registering event listener.
+The added custom view pager adapter, allows a memory efficient and convenient handling of different view pager fragments with being able to append, prepend, update by filter methods.
+The adapter also allows view pager pages to control the view pager navigation using the scrollhandler within the adapter.
 
 ![Screenshot](https://raw.githubusercontent.com/kibotu/SwipeDirectionViewPager/master/screenshot.png)
-
-
-## How to use
-
-
 
 ## How to install
 
     implementation 'com.github.kibotu:SwipeDirectionViewPager:-SNAPSHOT'
 
+## How to use
+
+### Basic Setup
+
+1 Create adapter
+
+    var adapter: ViewPagerPresenterAdapter<PageModel, ViewPagerModel> = ViewPagerPresenterAdapter(supportFragmentManager) // use Fragment#childFragmentManager in nested fragments
+
+2 add to view pager
+
+    viewPager.adapter = adapter
+
+3 add listeners
+
+    adapter.swipeLeftEdgeListener = Runnable {
+        snackbar(this, "has swiped left on first page")
+    }
+
+    adapter.swipeRightEdgeListener = Runnable {
+        snackbar(this, "has swiped right on last page")
+    }
+
+4 add view pager fragments
+
+    (0 until 5).forEach {
+        adapter.append(PageModel(text = "Page $it")) { TextPage() }
+        adapter.append(PageModel(imageUrl = createRandomImageUrl())) { ImagePage() }
+    }
+
+    // don't forget to notify updates
+
+    adapter.notifyDataSetChanged()
+
+5 implement ViewPagerPresenterAdapter.ViewPagerPresenter<PageModel, ViewPagerModel> interface in your view pager fragments, e.g.:
+
+    class Page : Fragment(), ViewPagerPresenterAdapter.ViewPagerPresenter<PageModel, ViewPagerModel> {
+
+        /**
+         * into pages injected adapter
+         */
+        override var viewPagerPresenterAdapter: ViewPagerPresenterAdapter<PageModel, ViewPagerModel>? = null
+
+        /**
+         * gets called when allowSwipeDirection is set and user scrolls to the previous or next page.
+         * basically, you set 'only swipe left' and when user swipes right, you can give the user feedback
+         */
+        override fun onSwipeIntercepted(direction: SwipeDirection){
+        }
+
+        /**
+         * set page specific swipe allowed direction
+         */
+        override fun allowSwipeDirection(): SwipeDirection {
+            return SwipeDirection.ALL
+        }
+    }
+
+### Inserting fragments
+
+Adding a new page to the end
+
+    adapter.append(PageModel(text = "Page $it")) { TextPage() }
+
+Adding a new page to the beginning
+
+    adapter.prepend(PageModel(text = "Page $it")) { TextPage() }
+
+### Getting fragments
+
+    var fragment = viewPagerPresenterAdapter?.getFragment(adapterPosition); // don't use #getItemPosition, it interferes with fragment updates
+
+### Getting models
+
+using adapter position
+
+    var model = viewPagerPresenterAdapter?.model(adapterPosition);
+
+using a fragment
+
+    var model = viewPagerPresenterAdapter?.model(fragment);
+
+### Getting adapter position
+
+Note: neither models nor fragments are unique, it's returning simply the first one found
+
+using a fragment
+
+    var position = viewPagerPresenterAdapter?.indexOf(fragment);
+
+using a model
+
+    var position = viewPagerPresenterAdapter?.indexOf(model);
+
+### Update fragments
+
+ViewPager fragments need to inherit form [Updatable]. the #update(t: T) gets called in order to update fragments without the need to recreate them. (which would be the case using #notifyDataSetChanged)
+
+replace model at given position
+
+    viewPagerPresenterAdapter?.update(PageModel(text = "updated model at position 0"), 0)
+
+replacing a model at given criteria
+
+    viewPagerPresenterAdapter?.update(PageModel(text = "update replaced model by filter"), { it.text == "Page 2" })
+
+modifying model data in place
+
+    viewPagerPresenterAdapter?.updateInPlace(filter = { it.text == "Page 3" }, modify = { it.text = "updated model in place by filter" })
+
+### Misc
+
+PageModel - can be any data model, which can be bound to view pager page.
+
+and can be accessed inside pages
+
+    var model : PageModel = viewPagerPresenterAdapter?.model(fragment)
+
+    // or
+
+    var model : PageModel = viewPagerPresenterAdapter?.model(adapterPosition)
+
+ViewPagerModel - shared object between all pages and its parent view pager holder
+
+    var viewPagerModel : ViewPagerModel = viewPagerPresenterAdapter?.viewPagerModel
+
+### ScrollHandler
+
+Allows view pager pages to control view pager scrolls.
+
+
+    viewPagerPresenterAdapter.scrollHandler
+
+    /**
+     * Skips a given amount of pages.
+     */
+    fun skip(amount: Int, smooth: Boolean = true)
+
+    /**
+     * Scrolls to a given position.
+     */
+    fun scrollTo(position: Int, smooth: Boolean = true)
+
+    /**
+     * Scrolls to next page.
+     */
+    fun scrollToNextPage()
+
+    /**
+     * Scrolls to previous page.
+     */
+    fun scrollToPreviousPage()
+
+    /**
+     * @return true if current page is first.
+     */
+    fun isFirstPage(): Boolean
+
+    /**
+     * @return true if current page is last.
+     */
+    fun isLastPage(): Boolean
 ## How to build
 
     graldew clean build
