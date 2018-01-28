@@ -9,7 +9,15 @@ Custom ViewPager that allows to block swiping right or left where the ViewPager 
 
 ## How to install
 
-    implementation 'com.github.kibotu:SwipeDirectionViewPager:-SNAPSHOT'
+    repositories {
+        maven {
+            url "https://jitpack.io"
+        }
+    }
+
+    dependencies {
+        implementation 'com.github.kibotu:SwipeDirectionViewPager:-SNAPSHOT'
+    }
 
 ## How to use
 
