@@ -31,7 +31,7 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
     private val uuid = UUID.randomUUID().toString()
 
     /**
-     * Actual data containing [T] and it's [Presenter] type.
+     * Actual data containing [T] and it's [Page] type.
      */
     private val data: MutableList<Page<T, Fragment>> = mutableListOf()
 
@@ -113,7 +113,8 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
     }
 
     /**
-     * @return Rather use [getFragment] Fragment at adapter position. Used internally by adapter and it clears [Page.dirty] flag.
+     * Note: Use [getFragment] instead. Internally used by adapter and it clears [Page.dirty] flag during page creation.
+     * @return Fragment at adapter position.
      */
     override fun getItem(position: Int): Fragment {
         val page = data[position]
@@ -194,7 +195,7 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
     }
 
     /**
-     * Updates a page based on a filter.
+     * Updates a page based on a filter. Requires [ViewPagerPresenter] to inherit from [Updatable] as well.
      */
     fun update(t: T, filter: (T) -> Boolean) {
         data.indexOfFirst { filter(it.model) }.let {
@@ -207,7 +208,7 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
     }
 
     /**
-     * Updates a page model based on a filter.
+     * Updates a page model based on a filter. Requires [ViewPagerPresenter] to inherit from [Updatable] as well.
      */
     fun updateWithFilter(filter: (T) -> Boolean, modify: (T) -> Unit) {
         data.indexOfFirst { filter(it.model) }.let {
