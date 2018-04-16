@@ -178,6 +178,14 @@ Allows view pager pages to control view pager scrolls.
      * @return true if current page is last.
      */
     fun isLastPage(): Boolean
+
+## RTL Support by using
+
+net.kibotu.swipedirectionviewpager.SwipeDirectionViewPagerRtl, which uses duolingo's RtlViewPager
+
+    implementation "com.android.support:support-core-ui:$support_version"
+    implementation 'com.duolingo.open:rtl-viewpager:1.0.3'
+
 ## How to build
 
     graldew clean build
