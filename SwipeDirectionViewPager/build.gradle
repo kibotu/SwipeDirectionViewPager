@@ -33,9 +33,16 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation "com.android.support:appcompat-v7:$support_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.github.kibotu:StreamingAndroidLogger:2.1.0'
+    implementation 'com.github.kibotu:StreamingAndroidLogger:2.1.5'
+
+    compileOnly "com.android.support:support-core-ui:$support_version"
+    compileOnly 'com.duolingo.open:rtl-viewpager:1.+'
+}
+configurations.all {
+    resolutionStrategy.force "com.android.support:appcompat-v7:$support_version"
+    resolutionStrategy.force "com.android.support:design:$support_version"
 }
 
 apply from: 'https://gist.githubusercontent.com/kibotu/994c9cc65fe623b76b76fedfac74b34b/raw/65ee52482ba65050e015f4b00d8d2fc9172a10e8/javadoc.gradle'
