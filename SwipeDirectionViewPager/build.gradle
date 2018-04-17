@@ -36,9 +36,6 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.github.kibotu:StreamingAndroidLogger:2.1.5'
-
-    compileOnly "com.android.support:support-core-ui:$support_version"
-    compileOnly 'com.duolingo.open:rtl-viewpager:1.+'
 }
 configurations.all {
     resolutionStrategy.force "com.android.support:appcompat-v7:$support_version"
