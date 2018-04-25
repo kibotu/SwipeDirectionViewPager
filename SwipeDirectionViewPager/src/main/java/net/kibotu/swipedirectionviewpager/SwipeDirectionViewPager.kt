@@ -36,6 +36,10 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
         return isSwipeAllowed(event) && super.onInterceptTouchEvent(event)
     }
 
+    fun isRtl() = context.resources.getBoolean(R.bool.rtl)
+
+    fun isLtr() = context.resources.getBoolean(R.bool.ltr)
+
     /**
      * Intercepts touch events and notifies pages.
      *
@@ -127,7 +131,7 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
         return object : ScrollHandler {
 
             override fun skip(amount: Int, smooth: Boolean) {
-                if(enableLogging) log("[skip] $amount")
+                if (enableLogging) log("[skip] $amount")
                 if (currentItem + amount >= adapter!!.count - 1)
                     getViewPagerPresenterAdapter()?.swipeRightEdgeListener?.run()
                 else
@@ -143,7 +147,7 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
             }
 
             override fun scrollTo(position: Int, smooth: Boolean) {
-                if(enableLogging)  log("""[scrollTo] position=$position /  ${adapter!!.count - 1} smooth=$smooth position == viewPager.getCurrentItem()${position == currentItem}""")
+                if (enableLogging) log("""[scrollTo] position=$position /  ${adapter!!.count - 1} smooth=$smooth position == viewPager.getCurrentItem()${position == currentItem}""")
                 if (position == currentItem)
                     return
 

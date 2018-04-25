@@ -9,7 +9,6 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
-import java.text.MessageFormat
 import java.util.*
 
 /**
@@ -36,5 +35,5 @@ fun getContentRoot(context: Activity): View {
 
 fun createRandomImageUrl(): String {
     val landscape = Random().nextBoolean()
-    return MessageFormat.format("https://lorempixel.com/{0}/{1}/", if (landscape) 400 else 200, if (landscape) 200 else 400)
+    return "https://lorempixel.com/${if (landscape) 400 else 200}/${if (landscape) 200 else 400}/"
 }

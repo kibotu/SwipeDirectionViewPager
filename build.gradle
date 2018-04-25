@@ -6,7 +6,7 @@ buildscript {
     ext.targetSdkVer = 27
     ext.support_version = '27.+'
 
-    ext.kotlin_version = '1.2.+'
+    ext.kotlin_version = '1.2.40'
 
     repositories {
         google()
@@ -35,5 +35,5 @@ task clean(type: Delete) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.6'
+    gradleVersion = '4.7'
 }

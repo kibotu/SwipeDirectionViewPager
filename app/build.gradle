@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "net.kibotu.swipedirectionviewpager.demo"
-        minSdkVersion minSdkVer
+        minSdkVersion 17
         targetSdkVersion targetSdkVer
         versionCode 1
         versionName "1.0"
@@ -34,12 +34,13 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:design:$support_version"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.7'
     implementation 'com.github.bumptech.glide:glide:4.5.0'
     implementation 'com.github.kibotu:StreamingAndroidLogger:2.1.5'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation project(':SwipeDirectionViewPager')
 }

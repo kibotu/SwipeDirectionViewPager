@@ -1,0 +1,4 @@
+<resources>
+    <bool name="ltr">false</bool>
+    <bool name="rtl">true</bool>
+</resources>

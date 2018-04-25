@@ -1,0 +1,7 @@
+<resources>
+    <bool name="ltr">false</bool>
+    <bool name="rtl">true</bool>
+
+    <!--<bool name="ltr">true</bool>-->
+    <!--<bool name="rtl">false</bool>-->
+</resources>
