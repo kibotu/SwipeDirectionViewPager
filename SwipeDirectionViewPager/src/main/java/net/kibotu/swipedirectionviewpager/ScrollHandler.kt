@@ -35,4 +35,8 @@ interface ScrollHandler {
      * @return true if current page is last.
      */
     fun isLastPage(): Boolean
+
+    fun isRtl(): Boolean
+
+    fun isLtr(): Boolean
 }

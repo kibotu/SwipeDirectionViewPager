@@ -1,40 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dispenserListLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <net.kibotu.swipedirectionviewpager.SwipeDirectionViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/swipeViewPagerLtr"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:clipToPadding="false"
         android:descendantFocusability="afterDescendants"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layoutDirection="ltr"
+        app:layout_constraintBottom_toTopOf="@+id/swipeCircleIndicatorLtr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <FrameLayout
+    <com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
+        android:id="@+id/swipeCircleIndicatorLtr"
+        style="@style/CircleIndicator"
         android:layout_width="wrap_content"
         android:layout_height="22dp"
+        android:layout_gravity="top"
+        android:layoutDirection="ltr"
+        app:dotColor="@color/circle_indicator_dot_color"
+        app:dotRadius="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/swipeViewPagerRtl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swipeViewPagerLtr"
+        app:selectedDotColor="@android:color/black"
+        app:selectedDotRadius="6dp" />
+
+    <net.kibotu.swipedirectionviewpager.SwipeDirectionViewPager
+        android:id="@+id/swipeViewPagerRtl"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:descendantFocusability="afterDescendants"
+        android:layoutDirection="rtl"
+        app:layout_constraintBottom_toTopOf="@+id/swipeCircleIndicatorRtl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swipeCircleIndicatorLtr" />
+
+    <com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
+        android:id="@+id/swipeCircleIndicatorRtl"
+        style="@style/CircleIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:layout_gravity="top"
+        android:layoutDirection="rtl"
+        app:dotColor="@color/circle_indicator_dot_color"
+        app:dotRadius="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/viewPagerLtr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swipeViewPagerRtl"
+        app:selectedDotColor="@android:color/black"
+        app:selectedDotRadius="6dp" />
+
+    <net.kibotu.swipedirectionviewpager.RtlViewPager
+        android:id="@+id/viewPagerLtr"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:descendantFocusability="afterDescendants"
+        android:layoutDirection="ltr"
+        app:layout_constraintBottom_toTopOf="@+id/circleIndicatorLtr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swipeCircleIndicatorRtl"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
+        android:id="@+id/circleIndicatorLtr"
+        style="@style/CircleIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:layout_gravity="top"
+        android:layoutDirection="ltr"
+        app:dotColor="@color/circle_indicator_dot_color"
+        app:dotRadius="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/viewPagerRtl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPagerLtr"
+        app:selectedDotColor="@android:color/black"
+        app:selectedDotRadius="6dp" />
+
+    <net.kibotu.swipedirectionviewpager.RtlViewPager
+        android:id="@+id/viewPagerRtl"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:descendantFocusability="afterDescendants"
+        android:layoutDirection="rtl"
+        app:layout_constraintBottom_toTopOf="@+id/circleIndicatorRtl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/circleIndicatorLtr" />
+
+    <com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
+        android:id="@+id/circleIndicatorRtl"
+        style="@style/CircleIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:layout_gravity="top"
+        android:layoutDirection="rtl"
+        app:dotColor="@color/circle_indicator_dot_color"
+        app:dotRadius="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintVertical_bias="1">
-
-        <com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
-            android:id="@+id/circleIndicator"
-            style="@style/CircleIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            app:dotColor="@color/circle_indicator_dot_color"
-            app:dotRadius="4dp"
-            app:selectedDotColor="@android:color/black"
-            app:selectedDotRadius="6dp" />
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@+id/viewPagerRtl"
+        app:selectedDotColor="@android:color/black"
+        app:selectedDotRadius="6dp" />
 
 </android.support.constraint.ConstraintLayout>

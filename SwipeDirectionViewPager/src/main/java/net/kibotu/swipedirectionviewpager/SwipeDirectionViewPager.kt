@@ -3,9 +3,12 @@ package net.kibotu.swipedirectionviewpager
 import android.content.Context
 import android.support.v4.math.MathUtils.clamp
 import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewCompat
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import net.kibotu.logger.LogTag
 import net.kibotu.logger.Logger.log
 import java.util.*
@@ -35,10 +38,6 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
         return isSwipeAllowed(event) && super.onInterceptTouchEvent(event)
     }
-
-    fun isRtl() = context.resources.getBoolean(R.bool.rtl)
-
-    fun isLtr() = context.resources.getBoolean(R.bool.ltr)
 
     /**
      * Intercepts touch events and notifies pages.
@@ -127,8 +126,22 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
         }
     }
 
+    private var mLayoutDirection = ViewCompat.LAYOUT_DIRECTION_LTR
+
+    override fun onRtlPropertiesChanged(layoutDirection: Int) {
+        super.onRtlPropertiesChanged(layoutDirection)
+
+
+        mLayoutDirection = if (layoutDirection == View.LAYOUT_DIRECTION_RTL) ViewCompat.LAYOUT_DIRECTION_RTL else ViewCompat.LAYOUT_DIRECTION_LTR
+        Log.v(tag(), "isRtl = " + mLayoutDirection)
+    }
+
     private fun createScrollListener(): ScrollHandler {
         return object : ScrollHandler {
+
+            override fun isRtl(): Boolean = mLayoutDirection == ViewCompat.LAYOUT_DIRECTION_RTL
+
+            override fun isLtr(): Boolean = mLayoutDirection == ViewCompat.LAYOUT_DIRECTION_RTL
 
             override fun skip(amount: Int, smooth: Boolean) {
                 if (enableLogging) log("[skip] $amount")
