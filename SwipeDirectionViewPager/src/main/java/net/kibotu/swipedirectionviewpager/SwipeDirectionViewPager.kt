@@ -6,7 +6,6 @@ import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewCompat
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import net.kibotu.logger.LogTag
@@ -131,9 +130,8 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
     override fun onRtlPropertiesChanged(layoutDirection: Int) {
         super.onRtlPropertiesChanged(layoutDirection)
 
-
         mLayoutDirection = if (layoutDirection == View.LAYOUT_DIRECTION_RTL) ViewCompat.LAYOUT_DIRECTION_RTL else ViewCompat.LAYOUT_DIRECTION_LTR
-        Log.v(tag(), "isRtl = " + mLayoutDirection)
+        if (enableLogging) log("isRtl = $mLayoutDirection")
     }
 
     private fun createScrollListener(): ScrollHandler {
@@ -168,10 +166,24 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
             }
 
             override fun scrollToNextPage() {
-                scrollTo(currentItem + 1, true)
+                if (isRtl())
+                    swipeLeft()
+                else
+                    swipeRight()
             }
 
             override fun scrollToPreviousPage() {
+                if (isRtl())
+                    swipeRight()
+                else
+                    swipeLeft()
+            }
+
+            override fun swipeRight() {
+                scrollTo(currentItem + 1, true)
+            }
+
+            override fun swipeLeft() {
                 scrollTo(currentItem - 1, true)
             }
         }

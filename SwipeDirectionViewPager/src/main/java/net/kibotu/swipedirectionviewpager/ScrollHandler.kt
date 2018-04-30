@@ -39,4 +39,6 @@ interface ScrollHandler {
     fun isRtl(): Boolean
 
     fun isLtr(): Boolean
+    fun swipeRight()
+    fun swipeLeft()
 }
