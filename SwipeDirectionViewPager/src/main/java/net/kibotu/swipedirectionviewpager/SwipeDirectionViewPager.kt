@@ -150,12 +150,22 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
             }
 
             override fun isLastPage(): Boolean {
-                return currentItem == adapter!!.count - 1
+                return when {
+                    isRtl() -> isLeftPage()
+                    else -> isRightPage()
+                }
             }
 
             override fun isFirstPage(): Boolean {
-                return currentItem == 0
+                return when {
+                    isRtl() -> isRightPage()
+                    else -> isLeftPage()
+                }
             }
+
+            override fun isRightPage() = currentItem == adapter!!.count - 1
+
+            override fun isLeftPage() = currentItem == 0
 
             override fun scrollTo(position: Int, smooth: Boolean) {
                 if (enableLogging) log("""[scrollTo] position=$position /  ${adapter!!.count - 1} smooth=$smooth position == viewPager.getCurrentItem()${position == currentItem}""")
@@ -166,17 +176,17 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
             }
 
             override fun scrollToNextPage() {
-                if (isRtl())
-                    swipeLeft()
-                else
-                    swipeRight()
+                when {
+                    isRtl() -> swipeLeft()
+                    else -> swipeRight()
+                }
             }
 
             override fun scrollToPreviousPage() {
-                if (isRtl())
-                    swipeRight()
-                else
-                    swipeLeft()
+                when {
+                    isRtl() -> swipeRight()
+                    else -> swipeLeft()
+                }
             }
 
             override fun swipeRight() {
