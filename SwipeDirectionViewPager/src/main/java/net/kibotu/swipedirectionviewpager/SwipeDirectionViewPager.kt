@@ -62,11 +62,11 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
                 when {
 
                 // we're on last page and scroll right
-                    it.scrollHandler.isFirstPage()
+                    it.scrollHandler.isLeftPage()
                             && diffX > SWIPE_THRESH_HOLD -> getViewPagerPresenterAdapter()?.swipeLeftEdgeListener?.run()
 
                 // we're on first page and scroll left
-                    it.scrollHandler.isLastPage()
+                    it.scrollHandler.isFirstPage()
                             && diffX < -SWIPE_THRESH_HOLD -> getViewPagerPresenterAdapter()?.swipeRightEdgeListener?.run()
 
                     else -> {
