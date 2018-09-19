@@ -3,7 +3,6 @@
 package net.kibotu.swipedirectionviewpager
 
 import android.content.res.Resources
-import android.util.Log
 import android.util.TypedValue
 
 internal val enableLogging: Boolean = false

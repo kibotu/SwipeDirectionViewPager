@@ -29,17 +29,26 @@ android {
     }
 
     // endregion
+
+    // region lint options
+
+    lintOptions {
+        disable 'InvalidPackage'
+        abortOnError false        // true by default
+        checkAllWarnings false
+        checkReleaseBuilds false
+        ignoreWarnings true       // false by default
+        quiet true                // false by default
+    }
+
+    // endregion
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "com.android.support:appcompat-v7:$support_version"
+    implementation "androidx.appcompat:appcompat:1.0.0-rc02"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'com.github.kibotu:StreamingAndroidLogger:2.1.5'
-}
-configurations.all {
-    resolutionStrategy.force "com.android.support:appcompat-v7:$support_version"
-    resolutionStrategy.force "com.android.support:design:$support_version"
+    implementation 'com.github.kibotu:StreamingAndroidLogger:3.0.0'
 }
 
 apply from: 'https://gist.githubusercontent.com/kibotu/994c9cc65fe623b76b76fedfac74b34b/raw/65ee52482ba65050e015f4b00d8d2fc9172a10e8/javadoc.gradle'

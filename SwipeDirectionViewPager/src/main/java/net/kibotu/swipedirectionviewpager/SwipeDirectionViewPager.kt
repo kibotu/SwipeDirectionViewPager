@@ -1,13 +1,13 @@
 package net.kibotu.swipedirectionviewpager
 
 import android.content.Context
-import android.support.v4.math.MathUtils.clamp
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewCompat
-import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.math.MathUtils.clamp
+import androidx.core.view.ViewCompat
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import net.kibotu.logger.LogTag
 import net.kibotu.logger.Logger.log
 import java.util.*

@@ -3,15 +3,15 @@ package net.kibotu.swipedirectionviewpager.demo
 import android.database.DataSetObserver
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.view.PagerAdapter
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.PagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import net.kibotu.swipedirectionviewpager.Callback
 import net.kibotu.swipedirectionviewpager.ViewPagerPresenterAdapter
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
         swipeViewPagerRtl.post {
             addPages(swipeAdapterRtl)
-            swipeViewPagerRtl.currentItem = swipeAdapterLtr.count -1
+            swipeViewPagerRtl.currentItem = swipeAdapterLtr.count - 1
         }
 
         updateCircleIndicatorVisibility()

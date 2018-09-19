@@ -1,5 +1,6 @@
 package net.kibotu.swipedirectionviewpager.demo;
 
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;

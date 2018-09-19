@@ -3,12 +3,12 @@
 package net.kibotu.swipedirectionviewpager.demo
 
 import android.app.Activity
-import android.support.design.widget.Snackbar
-import android.support.v4.app.FragmentActivity
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
+import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
 /**
@@ -21,7 +21,7 @@ fun snackbar(context: FragmentActivity?, message: String) {
         return
     }
     val snackBar = Snackbar.make(getContentRoot(context), message, Snackbar.LENGTH_SHORT)
-    val text: TextView = snackBar.view.findViewById(android.support.design.R.id.snackbar_text)
+    val text: TextView = snackBar.view.findViewById(com.google.android.material.R.id.snackbar_text)
     text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
     snackBar.show()
 }

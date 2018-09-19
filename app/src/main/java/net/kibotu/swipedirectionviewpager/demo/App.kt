@@ -2,8 +2,8 @@ package net.kibotu.swipedirectionviewpager.demo
 
 import android.content.Context
 import android.content.res.Configuration
-import android.support.multidex.MultiDexApplication
 import android.util.Log
+import androidx.multidex.MultiDexApplication
 
 /**
  * Created by [Jan Rabe](https://about.me/janrabe).
