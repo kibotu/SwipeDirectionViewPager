@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
 
@@ -9,43 +10,110 @@ android {
     buildToolsVersion buildToolsVer
 
     defaultConfig {
+        multiDexEnabled true
         applicationId "net.kibotu.swipedirectionviewpager.demo"
         minSdkVersion 17
         targetSdkVersion targetSdkVer
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    // region java compiler flags
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    // region build types
+
+    buildTypes {
+
+        debug {
+            applicationIdSuffix ""
+            pseudoLocalesEnabled true
+            debuggable true
+            minifyEnabled false
+            crunchPngs false
+            shrinkResources false
+            zipAlignEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            ext.alwaysUpdateBuildId = false
+        }
+
+        release {
+            pseudoLocalesEnabled false
+            debuggable false
+            minifyEnabled true
+            crunchPngs true
+            shrinkResources true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // endregion
+
+    // region lint options
+
+    lintOptions {
+        disable 'InvalidPackage'
+        abortOnError false        // true by default
+        checkAllWarnings false
+        checkReleaseBuilds false
+        ignoreWarnings true       // false by default
+        quiet true                // false by default
+    }
+
+    // endregion
+
+    // region dex options
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+        maxProcessCount 8
+    }
+
+    // endregion
+
+    // region adb options
+
+    adbOptions {
+        timeOutInMs 10 * 60 * 1000 // 10 minutes
+    }
+
     // endregion
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "androidx.appcompat:appcompat:1.0.0-rc02"
-    implementation "com.google.android.material:material:1.0.0-rc02"
-    implementation 'androidx.constraintlayout:constraintlayout-solver:1.1.3'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    // implementation 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.9'
-    implementation ('com.github.kibotu:Android-Indefinite-Pager-Indicator:2.0.4'){
-    }
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
-    kapt 'com.github.bumptech.glide:compiler:4.8.0'
-    implementation 'com.github.kibotu:StreamingAndroidLogger:3.0.0'
-    implementation 'androidx.multidex:multidex:2.0.0'
+    implementation libs.kotlinJdk8
+    implementation libs.supportMultidex
+    implementation libs.supportAppCompat
+    implementation libs.appCompatResources
+    implementation libs.supportDesign
+    implementation libs.constraintLayout
+    implementation libs.androidKtx
+
     api project(':SwipeDirectionViewPager')
+
+    implementation(libs.exozetCore) {
+        exclude module: 'swipeDirectionViewPager'
+    }
+    implementation libs.logger
+
+    implementation libs.indefinitePagerIndicator
+
+    implementation libs.glide
+    kapt libs.glideAnnotationsProcessor
 }
+
+// region override support library version
+
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'
+    resolutionStrategy.force libs.kotlinJdk8
+    resolutionStrategy.force libs.supportAppCompat
+    resolutionStrategy.force libs.appCompatResources
+    resolutionStrategy.force libs.constraintLayout
+}
+
+// endregion
