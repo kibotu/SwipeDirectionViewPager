@@ -5,8 +5,7 @@ import androidx.core.math.MathUtils.clamp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import net.kibotu.logger.LogTag
-import net.kibotu.logger.Logger.log
+import net.kibotu.logger.Logger.logv
 import java.util.*
 
 
@@ -14,14 +13,16 @@ import java.util.*
  * Created by [Jan Rabe](https://about.me/janrabe).
  */
 
-open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentStatePagerAdapter(fm), LogTag {
+open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
     /**
      * ViewPager Page.
      */
-    class Page<out T, out S>(val model: T, val presenter: S, val factory: () -> S,
-                             /** Indicates if presenter needs to be re-created. **/
-                             var dirty: Boolean = false, var toBeRemoved: Boolean = false) where S : Fragment
+    class Page<out T, out S>(
+        val model: T, val presenter: S, val factory: () -> S,
+        /** Indicates if presenter needs to be re-created. **/
+        var dirty: Boolean = false, var toBeRemoved: Boolean = false
+    ) where S : Fragment
 
     /**
      * Interface for injecting the adapter into pages.
@@ -79,7 +80,7 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
         else
             POSITION_UNCHANGED // don't force a reload
 
-        if (enableLogging) log("[getItemPosition] position=${adapterPositionToString(position)} item=$item")
+        if (enableLogging) logv("[getItemPosition] position=${adapterPositionToString(position)} item=$item")
 
         // POSITION_NONE means something like: this fragment is no longer valid
         // triggering the ViewPager to re-build the instance of this fragment.
@@ -90,7 +91,7 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
      * Destroys page.
      */
     override fun destroyItem(container: ViewGroup, position: Int, item: Any) {
-        if (enableLogging) log("[destroyItem] container=$container position=$position item=$item")
+        if (enableLogging) logv("[destroyItem] container=$container position=$position item=$item")
         super.destroyItem(container, position, item)
     }
 
@@ -98,7 +99,7 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
      * Adds a new page at the end.
      */
     fun <R> append(t: T, factory: () -> R) where R : Fragment, R : ViewPagerPresenterAdapter.ViewPagerPresenter<T, VM> {
-        if (enableLogging) log("[getItem] size=$count at=0 item=$t")
+        if (enableLogging) logv("[getItem] size=$count at=0 item=$t")
 
         data.add(Page(t, factory().apply { viewPagerPresenterAdapter = this@ViewPagerPresenterAdapter }, factory))
         data.subList(0, data.size - 1).forEach { it.dirty = true }
@@ -107,8 +108,11 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
     /**
      * Adds a new page at the beginning.
      */
-    fun <R> prepend(t: T, factory: () -> R) where R : Fragment, R : ViewPagerPresenterAdapter.ViewPagerPresenter<T, VM> {
-        if (enableLogging) log("[getItem] size=$count at=0 item=$t")
+    fun <R> prepend(
+        t: T,
+        factory: () -> R
+    ) where R : Fragment, R : ViewPagerPresenterAdapter.ViewPagerPresenter<T, VM> {
+        if (enableLogging) logv("[getItem] size=$count at=0 item=$t")
 
         data.add(0, Page(t, factory().apply { viewPagerPresenterAdapter = this@ViewPagerPresenterAdapter }, factory))
         data.drop(1).forEach { it.dirty = true }
@@ -120,7 +124,7 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
      */
     override fun getItem(position: Int): Fragment {
         val page = data[position]
-        if (enableLogging) log("[getItem] position=$position ${page.dirty}")
+        if (enableLogging) logv("[getItem] position=$position ${page.dirty}")
 
         if (page.dirty)
             page.dirty = false
@@ -168,7 +172,7 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
      */
     fun removeIf(filter: (T) -> Boolean) {
         data.find { filter(it.model) }?.let {
-            if (enableLogging) log("[removeIf] $it")
+            if (enableLogging) logv("[removeIf] $it")
 
             it.toBeRemoved = true
             data.remove(it)
@@ -208,7 +212,7 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
      */
     fun update(t: T, filter: (T) -> Boolean) {
         data.indexOfFirst { filter(it.model) }.let {
-            if (enableLogging) log("[update] $it $t")
+            if (enableLogging) logv("[update] $it $t")
 
             data[it] = Page(t, data[it].presenter, data[it].factory)
             @Suppress("UNCHECKED_CAST")
@@ -220,7 +224,7 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
      * Updates a page at a given position.
      */
     fun update(t: T, position: Int) {
-        if (enableLogging) log("[update] $t at $position")
+        if (enableLogging) logv("[update] $t at $position")
         data[position] = Page(t, data[position].presenter, data[position].factory)
         @Suppress("UNCHECKED_CAST")
         (data[position].presenter as? Updatable<T>)?.onUpdate(t)
@@ -231,17 +235,13 @@ open class ViewPagerPresenterAdapter<T, VM>(fm: FragmentManager) : FragmentState
      */
     fun updateInPlace(filter: (T) -> Boolean, modify: (T) -> Unit) {
         data.indexOfFirst { filter(it.model) }.let {
-            if (enableLogging) log("[updateInPlace] $it")
+            if (enableLogging) logv("[updateInPlace] $it")
 
             val page = data[it]
             modify(page.model)
             @Suppress("UNCHECKED_CAST")
             (data[it].presenter as? Updatable<T>)?.onUpdate(page.model)
         }
-    }
-
-    override fun tag(): String {
-        return javaClass.simpleName + "[" + uuid.substring(0, 8) + "]"
     }
 
     private fun adapterPositionToString(position: Int): String = when (position) {

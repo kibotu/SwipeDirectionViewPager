@@ -75,9 +75,6 @@ dependencies {
     implementation libs.androidKtx
     implementation libs.constraintLayout
 
-    implementation libs.parceler
-    api libs.parcelerProcessor
-
     implementation libs.logger
 }
 

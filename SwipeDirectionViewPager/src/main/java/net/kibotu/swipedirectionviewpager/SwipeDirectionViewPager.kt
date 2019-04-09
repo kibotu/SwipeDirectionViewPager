@@ -8,8 +8,7 @@ import androidx.core.math.MathUtils.clamp
 import androidx.core.view.ViewCompat
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import net.kibotu.logger.LogTag
-import net.kibotu.logger.Logger.log
+import net.kibotu.logger.Logger.logv
 import java.util.*
 
 /**
@@ -18,7 +17,7 @@ import java.util.*
  *
  */
 
-class SwipeDirectionViewPager : ViewPager, LogTag {
+class SwipeDirectionViewPager : ViewPager {
 
     private val uuid = UUID.randomUUID().toString()
 
@@ -131,7 +130,7 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
         super.onRtlPropertiesChanged(layoutDirection)
 
         mLayoutDirection = if (layoutDirection == View.LAYOUT_DIRECTION_RTL) ViewCompat.LAYOUT_DIRECTION_RTL else ViewCompat.LAYOUT_DIRECTION_LTR
-        if (enableLogging) log("isRtl = $mLayoutDirection")
+        if (enableLogging) logv("isRtl = $mLayoutDirection")
     }
 
     private fun createScrollListener(): ScrollHandler {
@@ -142,7 +141,7 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
             override fun isLtr(): Boolean = mLayoutDirection == ViewCompat.LAYOUT_DIRECTION_RTL
 
             override fun skip(amount: Int, smooth: Boolean) {
-                if (enableLogging) log("[skip] $amount")
+                if (enableLogging) logv("[skip] $amount")
                 if (currentItem + amount >= adapter!!.count - 1)
                     getViewPagerPresenterAdapter()?.swipeRightEdgeListener?.run()
                 else
@@ -168,7 +167,7 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
             override fun isLeftPage() = currentItem == 0
 
             override fun scrollTo(position: Int, smooth: Boolean) {
-                if (enableLogging) log("""[scrollTo] position=$position /  ${adapter!!.count - 1} smooth=$smooth position == viewPager.getCurrentItem()${position == currentItem}""")
+                if (enableLogging) logv("""[scrollTo] position=$position /  ${adapter!!.count - 1} smooth=$smooth position == viewPager.getCurrentItem()${position == currentItem}""")
                 if (position == currentItem)
                     return
 
@@ -212,9 +211,5 @@ class SwipeDirectionViewPager : ViewPager, LogTag {
         }
 
         return SwipeDirection.ALL
-    }
-
-    override fun tag(): String {
-        return javaClass.simpleName + "[" + uuid.substring(0, 8) + "]"
     }
 }
